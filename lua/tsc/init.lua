@@ -130,13 +130,7 @@ M.run = function()
     end
 
     notify_record = vim.notify(
-      format_notification_msg(
-        (
-          config.flags.watch and "👀 Watching your project for changes"
-          or "Type-checking your project" .. (running_count > 0 and "s" or "")
-        ) .. ", kick back and relax 🚀",
-        spinner_idx
-      ),
+      format_notification_msg(config.flags.watch and "Watching project for changes" or "Type-checking" .. (running_count > 0 and "s" or ""), spinner_idx),
       nil,
       get_notify_options(
         (notify_record and { replace = notify_record.id }),
@@ -207,7 +201,7 @@ M.run = function()
     if #errors == 0 then
       if config.enable_progress_notifications then
         vim.notify(
-          format_notification_msg("Type-checking complete. No errors found 🎉"),
+          format_notification_msg(""),
           nil,
           get_notify_options((notify_record and { replace = notify_record.id }))
         )
@@ -225,9 +219,7 @@ M.run = function()
     end
 
     vim.notify(
-      format_notification_msg(
-        string.format("Type-checking complete. Found %s errors across %s files 💥", #errors, #files_with_errors)
-      ),
+      format_notification_msg(""),
       vim.log.levels.ERROR,
       get_notify_options((notify_record and { overwrite = notify_record.id }))
     )
